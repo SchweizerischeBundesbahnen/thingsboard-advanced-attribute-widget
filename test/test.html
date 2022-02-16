@@ -32,7 +32,7 @@
       <div fxflex="20" fxlayout="row" fxlayoutalign="center center" class="title-container" style="flex-direction: row; box-sizing: border-box; display: none; place-content: center; align-items: center; flex: 1 1 100%; max-height: 20%;"><span class="button-title"></span></div>
       <div fxlayout="column" fxlayoutalign="center center" id="cstmWidgetContainer" class="button-container" style="align-items: normal; padding-top: 10px; flex-direction: column; box-sizing: border-box; display: flex; place-content: center; flex: 1 1 100%; max-height: 100%;">
             <div style="margin-top: -10px; overflow-y: auto;">
-                  <form novalidate="" style="margin-top: -2px;" id="cstmFrm1-startMission" class="ng-untouched ng-pristine ng-valid" data-np-checked="1">
+                  <form novalidate="" style="margin-top: -2px;" id="cstmFrm1-setEnvParam" class="ng-untouched ng-pristine ng-valid" data-np-checked="1">
                   </form>
             </div>
       </div>
@@ -40,33 +40,18 @@
 </div>
 
 
-<!-- Javascript Start -->
 
-<!-- Check if jQuery already exists -->
-<script type="text/javascript">
-      let self = {
-            ctx: {
-                  settings: {
-                        entityParameters: null
-                  }
-            }
-      };
-      fetch('./test.settings.json')
-            .then(data => {
-                  data.json()
-                  .then(json=>{
-                        self.ctx.settings.entityParameters = json;
-                        console.log(json);
-                  });
-            })
 
-</script>
-<!-- Javascript End -->
 
+
+<script type="text/javascript" src="testhelper.js"></script>
 <script type="text/javascript" src="../javascript.js"></script>
 
 <script type="text/javascript">
-
+      loadAngularSettings()
+            .then(()=>{
+                  self.onInit();
+            });
 </script>
 
 </body>

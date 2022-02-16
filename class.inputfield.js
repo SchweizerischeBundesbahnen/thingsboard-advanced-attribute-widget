@@ -23,7 +23,9 @@ class classInputField {
 
       /**
        *
-       * Render DOM of an input field
+       * Render DOM of the input field
+       *
+       * if field is a multifield, create "add" button
        *
        */
       render = function() {
@@ -41,14 +43,13 @@ class classInputField {
                   this.container.appendChild(add);
                   add.onclick = () => {
                         this.counter++;
-                        console.log(this);
                         this.addInputField();
                         this.updateSummary();
                   };
                   // array as multitype specific
                   if (this.params.multitype && this.params.multitype === 'array') {
                         let container = document.createElement('div');
-                        container.style.display = 'none';
+                        // container.style.display = 'none';
                         let label = document.createElement('label');
                         label.innerHTML = this.params.title.replace('%s', this.params.value || 0);
                         this.summary = document.createElement('input');
@@ -67,70 +68,6 @@ class classInputField {
             // ************   end multi value input field
       }
 
-
-
-
-      /**
-       * if there is a total field (array) this updates it
-       *
-       *
-       *
-       *
-       */
-      updateSummary = function() {
-            let value = '';
-            if (this.summary && this.params.multitype && this.params.multitype === 'array') {
-                  let values = [];
-                  this.input.forEach((item) => {
-                        values.push($(item).val());
-                  });
-                  if (this.params.pattern) {
-                        let hasError = false;
-                        values.forEach((item, i) => { if (!this.checkPattern(this.input[i], item)) hasError = true; });
-                        if (hasError) this.disableSendButton();
-                        else this.enableSendButton();
-                  }
-                  value = [
-                        '[',
-                        values.join(','),
-                        ']'
-                  ].join('');
-                  $(this.summary).val(value);
-            }
-            else {
-                  let values = [$(this.input[0]).val()];
-                  if (this.params.pattern) {
-                        let hasError = false;
-                        values.forEach((item, i) => { if (!this.checkPattern(this.input[i], item)) hasError = true; });
-                        if (hasError) this.disableSendButton();
-                        else this.enableSendButton();
-                  }
-            }
-            // console.log('value:', value);
-      }
-
-      /**
-       *
-       * disables the send button
-       *
-       */
-      disableSendButton = function() {
-            $(this.angularself.ctx.$scope.btnSend).off('click');
-            $(this.angularself.ctx.$scope.btnSend).removeClass('btn-primary');
-            $(this.angularself.ctx.$scope.btnSend).addClass('btn-danger');
-      }
-
-      /**
-       *
-       * enables the send button
-       *
-       */
-      enableSendButton = function() {
-            $(this.angularself.ctx.$scope.btnSend).off('click');
-            $(this.angularself.ctx.$scope.btnSend).removeClass('btn-danger');
-            $(this.angularself.ctx.$scope.btnSend).addClass('btn-primary');
-            $(this.angularself.ctx.$scope.btnSend).click(this.angularself.ctx.$scope.sendUpdate);
-      }
 
 
       /**
@@ -206,22 +143,98 @@ class classInputField {
                         container.appendChild(curLabel);
                         break;
             }
+
+            // set flag for multi-field as partValue
+            // this is needed to be able to filter it later
             if (this.params.multi) {
                   curInput.setAttribute('partValue', 'yes');
             }
 
             // set default value from last setting
-            this.getDefaultValue(this.params.key)
-                  .then(attribute => {
-                        curInput.value = attribute[0].value;
-                        $(myself.label[0]).html(myself.params.title.replace('%s', $(myself.input[0]).val()));
+            try {
+                  this.getDefaultValue(this.params.key)
+                        .then(attribute => {
+                              curInput.value = attribute[0].value;
+                              $(myself.label[0]).html(myself.params.title.replace('%s', $(myself.input[0]).val()));
 
-                  });
+                        });
+            }
+            catch (e) {
+                  console.log(e);
+            }
       }
 
 
+
+
+      /**
+       * if there is a total field (array) this updates it
+       *
+       *
+       *
+       *
+       */
+      updateSummary = function() {
+            let value = '';
+            if (this.summary && this.params.multitype && this.params.multitype === 'array') {
+                  let values = [];
+                  this.input.forEach((item) => {
+                        values.push($(item).val());
+                  });
+                  if (this.params.pattern) {
+                        let hasError = false;
+                        values.forEach((item, i) => { if (!this.checkPattern(this.input[i], item)) hasError = true; });
+                        if (hasError) this.disableSendButton();
+                        else this.enableSendButton();
+                  }
+                  value = [
+                        '[',
+                        values.join(','),
+                        ']'
+                  ].join('');
+                  $(this.summary).val(value);
+            }
+            else {
+                  let values = [$(this.input[0]).val()];
+                  if (this.params.pattern) {
+                        let hasError = false;
+                        values.forEach((item, i) => { if (!this.checkPattern(this.input[i], item)) hasError = true; });
+                        if (hasError) this.disableSendButton();
+                        else this.enableSendButton();
+                  }
+            }
+            // console.log('value:', value);
+      }
+
+      /**
+       *
+       * disables the send button
+       *
+       */
+      disableSendButton = function() {
+            $(this.angularself.ctx.$scope.btnSend).off('click');
+            $(this.angularself.ctx.$scope.btnSend).removeClass('btn-primary');
+            $(this.angularself.ctx.$scope.btnSend).addClass('btn-danger');
+      }
+
+      /**
+       *
+       * enables the send button
+       *
+       */
+      enableSendButton = function() {
+            $(this.angularself.ctx.$scope.btnSend).off('click');
+            $(this.angularself.ctx.$scope.btnSend).removeClass('btn-danger');
+            $(this.angularself.ctx.$scope.btnSend).addClass('btn-primary');
+            $(this.angularself.ctx.$scope.btnSend).click(this.angularself.ctx.$scope.sendUpdate);
+      }
+
+
+
+
+
       updateLabel = function(label, value) {
-            value = this.params.title.replace('%s', $(value));
+            value = this.params.title.replace('%s', value);
             $(label).html(value);
       }
 
@@ -286,6 +299,28 @@ class classInputField {
                         }
                   );
             });
+      }
+
+
+/**
+ * 
+ * get value-key pair
+ * 
+ * 
+ */
+      getValue = function() {
+            let value;
+            if (this.params.multi) {
+                  value = $(this.summary).val();
+            }
+            else {
+                  const input = $(this.input[this.input.length - 1]);
+                  value = ($(input).attr('type') === 'checkbox') ? ($(input).prop('checked') ? true : false) : $(input).val();
+            }
+            return {
+                  key: this.params.key,
+                  value: value
+            }
       }
 
 }
