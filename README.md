@@ -1,0 +1,1 @@
+# thingsboard-advanced-attribute-widget
