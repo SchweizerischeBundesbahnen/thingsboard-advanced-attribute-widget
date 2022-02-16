@@ -41,10 +41,11 @@ class classInputField {
                   add.className = 'btn btn-secondary tb-cstm-button-add';
                   add.innerHTML = WIDGET_ICON_PLUS + '&nbsp;&nbsp;Add';
                   this.container.appendChild(add);
-                  add.onclick = () => {
+                  add.onclick = (e) => {
                         this.counter++;
                         this.addInputField();
                         this.updateSummary();
+                        e.preventDefault();
                   };
                   // array as multitype specific
                   if (this.params.multitype && this.params.multitype === 'array') {
@@ -302,12 +303,12 @@ class classInputField {
       }
 
 
-/**
- * 
- * get value-key pair
- * 
- * 
- */
+      /**
+       *
+       * get value-key pair
+       *
+       *
+       */
       getValue = function() {
             let value;
             if (this.params.multi) {

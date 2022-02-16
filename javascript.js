@@ -65,15 +65,11 @@ function init() {
                   'color': self.ctx.$scope.styleButton.textColor
             };
       }
-
-
-
-}
-
-
+      
+      
 // gets called when button is pushed
 // saves attributes and triggers rule chain "attributes updated"
-self.ctx.$scope.sendUpdate = function() {
+self.ctx.$scope.sendUpdate = function(event) {
 
 
       let entityId = {
@@ -114,4 +110,11 @@ self.ctx.$scope.sendUpdate = function() {
             }
 
       );
+
+      // to prevent boostrap from sending formular for <button>
+      event.preventDefault();
 };
+
+
+
+}

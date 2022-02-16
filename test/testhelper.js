@@ -72,16 +72,16 @@ let self = {
 // load json settings from file
 const loadAngularSettings = function() {
       return new Promise((resolve, reject) => {
-            fetch('test.settings.json')
-                  .then(data => {
-                        data.json()
-                              .then(json => {
-                                    self.ctx.settings.entityParameters = json;
-                                    console.log(json);
-                                    return resolve();
-                              })
-                              .catch(e => reject(e));
-                  })
-                  .catch(e => reject(e));
+                  fetch('https://cdn.jsdelivr.net/gh/SchweizerischeBundesbahnen/thingsboard-advanced-attribute-widget/test/test.settings.json')
+                        .then(data => {
+                              data.json()
+                                    .then(json => {
+                                          self.ctx.settings.entityParameters = json;
+                                          console.log(json);
+                                          return resolve();
+                                    })
+                                    .catch(e => reject(e));
+                        })
+                        .catch(e => reject(e));
       });
 };
