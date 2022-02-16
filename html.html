@@ -1,0 +1,16 @@
+<div class="tb-rpc-button" fxLayout="column">
+    <div fxFlex="20" class="title-container" fxLayout="row"
+        fxLayoutAlign="center center" [fxShow]="showTitle">
+        <span class="button-title">{{title}}</span>
+    </div>
+    <div fxFlex="{{showTitle ? 80 : 100}}" [ngStyle]="{paddingTop: showTitle ? '5px': '10px'}" style="align-items: normal;"
+        class="button-container" fxLayout="column" fxLayoutAlign="center center" id="cstmWidgetContainer">
+        <div style="margin-top: -10px; overflow-y: auto">
+            <form id="cstmFrm1-{{ command }}" style="margin-top: -2px;"></form>
+        </div>
+    </div>
+    <div class="error-container" [ngStyle]="{'background': error?.length ? 'rgba(255,255,255,0.25)' : 'none'}"
+         fxLayout="row" fxLayoutAlign="center center">
+        <span class="button-error">{{ error }}</span>
+    </div>
+</div>

@@ -1,0 +1,96 @@
+{
+    "schema": {
+        "type": "object",
+        "title": "Settings",
+        "properties": {
+            "title": {
+                "title": "Widget title",
+                "type": "string",
+                "default": ""
+            },
+            "buttonText": {
+                "title": "Button label",
+                "type": "string",
+                "default": "Update device attribute"
+            },
+            "command": {
+                "title": "Device Command",
+                "type": "string",
+                "default": "startMission"
+            },
+            "entityAttributeType": {
+                "title": "Device attribute scope",
+                "type": "string",
+                "default": "SERVER_SCOPE"
+            },
+            "entityParameters": {
+                "title": "Device attribute parameters",
+                "type": "string",
+                "default": "[\n        {\n            \"title\": \"Some Label:\",\n            \"key\": \"someKey\",\n            \"type\": \"text|range|checkbox\",\n            \"default\": \"someValue\",\n            \"multi\": false,\n            \"multitype\": \"array|none\",\n            \"pattern\":\"^[+-]?([0-9]+\\.?[0-9]*|\\.[0-9]+)$\"\n        }\n]"
+            },
+            "styleButton": {
+                "type": "object",
+                "title": "Button Style",
+                "properties": {
+                    "isRaised": {
+                        "type": "boolean",
+                        "title": "Raised",
+                        "default": true
+                    },
+                    "isPrimary": {
+                        "type": "boolean",
+                        "title": "Primary color",
+                        "default": false
+                    },
+                    "bgColor": {
+                        "type": "string",
+                        "title": "Button background color",
+                        "default": null
+                    },
+                    "textColor": {
+                        "type": "string",
+                        "title": "Button text color",
+                        "default": null
+                    }
+                }
+            },
+            "required": []
+        }
+    },
+    "form": [
+        "title",
+        "buttonText",
+        "command",
+        {
+            "key": "entityAttributeType",
+            "type": "rc-select",
+            "multiple": false,
+            "items": [{
+                "value": "SERVER_SCOPE",
+                "label": "Server attribute"
+            }, {
+                "value": "SHARED_SCOPE",
+                "label": "Shared attribute"
+            }]
+        }, {
+            "key": "entityParameters",
+            "type": "json"
+        },
+        {
+            "key": "styleButton",
+            "items": [
+                "styleButton.isRaised",
+                "styleButton.isPrimary",
+                {
+                    "key": "styleButton.bgColor",
+                    "type": "color"
+                },
+                {
+                    "key": "styleButton.textColor",
+                    "type": "color"
+                }
+            ]
+        }
+    ]
+
+}

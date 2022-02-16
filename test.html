@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+	<title></title>
+
+	<!-- Favicons End -->
+
+	<!-- CSS Start -->
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="test.css">
+	<!-- CSS End -->
+
+	<!-- JS -->
+      <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="class.inputfield.js"></script>
+	<!-- JS End -->
+
+	<!-- HTML5 Support for old ie browsers -->
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+</head>
+
+
+
+
+<body>
+<h1>Test Widget</h1>
+<div fxlayout="column" class="tb-rpc-button" style="flex-direction: column; box-sizing: border-box; display: flex;">
+      <div fxflex="20" fxlayout="row" fxlayoutalign="center center" class="title-container" style="flex-direction: row; box-sizing: border-box; display: none; place-content: center; align-items: center; flex: 1 1 100%; max-height: 20%;"><span class="button-title"></span></div>
+      <div fxlayout="column" fxlayoutalign="center center" id="cstmWidgetContainer" class="button-container" style="align-items: normal; padding-top: 10px; flex-direction: column; box-sizing: border-box; display: flex; place-content: center; flex: 1 1 100%; max-height: 100%;">
+            <div style="margin-top: -10px; overflow-y: auto;">
+                  <form novalidate="" style="margin-top: -2px;" id="cstmFrm1-startMission" class="ng-untouched ng-pristine ng-valid" data-np-checked="1">
+                  </form>
+            </div>
+      </div>
+      <div fxlayout="row" fxlayoutalign="center center" class="error-container" style="background: none; flex-direction: row; box-sizing: border-box; display: flex; place-content: center; align-items: center;"><span class="button-error"></span></div>
+</div>
+
+
+<!-- Javascript Start -->
+
+<!-- Check if jQuery already exists -->
+<script type="text/javascript">
+      let self = {
+            ctx: {
+                  settings: {
+                        entityParameters: null
+                  }
+            }
+      };
+      fetch('./test.settings.json')
+            .then(data => {
+                  data.json()
+                  .then(json=>{
+                        self.ctx.settings.entityParameters = json;
+                        console.log(json);
+                  });
+            })
+
+</script>
+<!-- Javascript End -->
+
+<script type="text/javascript" src="javascript.js"></script>
+
+<script type="text/javascript">
+
+</script>
+
+</body>
+</html>

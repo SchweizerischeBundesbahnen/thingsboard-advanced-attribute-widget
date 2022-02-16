@@ -1,0 +1,27 @@
+[
+        {
+            "title": "Min Bridge Position: %s m",
+            "type": "range",
+            "key": "setEnvParam_posMin",
+            "min": -500,
+            "max": 0,
+            "step": 1
+        },
+        {
+            "title": "Max Bridge Position: %s m",
+            "type": "range",
+            "key": "setEnvParam_posMax",
+            "min": 0,
+            "max": 500,
+            "step": 1
+        },
+        {
+            "title": "Bridge Position: ",
+            "key": "setEnvParam_bridgePositions",
+            "type": "text",
+            "default": "0.25",
+            "multi": true,
+            "multitype": "array",
+            "pattern":"^[+-]?([0-9]+\\.?[0-9]*|\\.[0-9]+)$"
+        }
+]
