@@ -17,6 +17,8 @@ class classInputField {
             this.counter = 1;
             this.summary;
             this.angularself = angular;
+            this.subfields = [];
+            this.subfieldsValues = [];
             this.render();
       }
 
@@ -37,36 +39,19 @@ class classInputField {
 
             // multi value input field (general)
             if (this.params.multi) {
+
+                  // "add" button
                   let add = document.createElement('button');
                   add.className = 'btn btn-secondary tb-cstm-button-add';
                   add.innerHTML = WIDGET_ICON_PLUS + '&nbsp;&nbsp;Add';
                   this.container.appendChild(add);
                   add.onclick = (e) => {
                         this.counter++;
-                        this.addInputField();
+                        this.addInputField(true); // true=>subField
                         this.updateSummary();
-                        e.preventDefault();
+                        e.preventDefault(); // or else bootrap does page reload/senf form data to nirvana
                   };
-                  // array as multitype specific
-                  if (this.params.multitype && this.params.multitype === 'array') {
-                        let container = document.createElement('div');
-                        // container.style.display = 'none';
-                        let label = document.createElement('label');
-                        label.innerHTML = this.params.title.replace('%s', this.params.value || 0);
-                        this.summary = document.createElement('input');
-                        label.style.marginRight = '20px';
-                        this.summary.name = this.params.key || 'thisFieldhasNoKeyPleaseSetAKey';
-                        this.summary.type = 'text';
-                        this.summary.className = 'form-text';
-                        this.summary.value = this.params.default || '';
-                        this.summary.setAttribute('disabled', 'disabled');
-                        container.appendChild(label);
-                        container.appendChild(this.summary);
-                        this.container.appendChild(container);
-                        this.updateSummary();
-                  }
             }
-            // ************   end multi value input field
       }
 
 
@@ -75,19 +60,15 @@ class classInputField {
        *
        * Create new input field DOM
        *
+       * also creates first element of multi-field
+       *
        *
        *
        */
-      addInputField = function() {
+      addInputField = function(isMultiField = false) {
             let myself = this; // used for sub functions
 
             let container = this.containerBody;
-
-            // subcontainer for multi forms
-            if (this.params.multi) {
-                  container = document.createElement('div'); // overwrites default container variable
-                  this.containerBody.appendChild(container);
-            }
 
             // label & input are array of length 1, if not a multi inputfield
             this.label.push(document.createElement('label'));
@@ -106,9 +87,21 @@ class classInputField {
             curInput.name = this.params.key || 'thisFieldhasNoKeyPleaseSetAKey';
             curInput.id = 'cstmFrmInput-' + this.params.key; // id is needed to associate with label
 
+            // in case of multi field it must go in separate container
             if (this.params.multi) {
-                  curLabel.innerHTML = this.params.title.replace('%s', this.params.value || 0).replace(':', '') + ' ' + this.counter + ':';
-                  curInput.name = curInput.name + '-' + this.input.length;
+                  // overwrites default container variable to newly created container
+                  container = document.createElement('div');
+                  this.containerBody.appendChild(container);
+                  curLabel.innerHTML = this.params.title.replace('%s', this.counter - 1);
+            }
+
+            // multifield summary
+            if (this.params.multi && !isMultiField) {
+                  curLabel.innerHTML = this.params.title.replace(' %s', '');
+                  curInput.setAttribute('disabled', 'disabled');
+
+                  // assign this input to summary of multi field
+                  this.summary = curInput;
             }
 
             switch (this.type) {
@@ -147,21 +140,36 @@ class classInputField {
 
             // set flag for multi-field as partValue
             // this is needed to be able to filter it later
-            if (this.params.multi) {
+            if (isMultiField) {
                   curInput.setAttribute('partValue', 'yes');
+                  this.subfields.push(curInput);
+                  curInput.value = myself.subfieldsValues[this.counter - 2] || 0;
             }
 
             // set default value from last setting
-            try {
-                  this.getDefaultValue(this.params.key)
-                        .then(attribute => {
-                              curInput.value = attribute[0].value;
-                              $(myself.label[0]).html(myself.params.title.replace('%s', $(myself.input[0]).val()));
+            // don't do this for multi-fields/subfields
+            else {
+                  try {
+                        this.getDefaultValue(this.params.key)
+                              .then(attribute => {
+                                    if (!myself.params.multi) {
+                                          curInput.value = attribute[0].value;
+                                          $(myself.label[0]).html(myself.params.title.replace('%s', $(myself.input[0]).val()));
+                                    }
+                                    // in case of multi field load subfields for every array value
+                                    else {
+                                          myself.subfieldsValues = JSON.parse(attribute[0].value);
+                                          myself.subfieldsValues.forEach(item => {
+                                                myself.counter++;
+                                                myself.addInputField(true); // true=>subField
+                                          });
+                                    }
 
-                        });
-            }
-            catch (e) {
-                  console.log(e);
+                              });
+                  }
+                  catch (e) {
+                        console.log(e);
+                  }
             }
       }
 
@@ -179,7 +187,7 @@ class classInputField {
             let value = '';
             if (this.summary && this.params.multitype && this.params.multitype === 'array') {
                   let values = [];
-                  this.input.forEach((item) => {
+                  this.subfields.forEach((item) => {
                         values.push($(item).val());
                   });
                   if (this.params.pattern) {
@@ -233,11 +241,18 @@ class classInputField {
 
 
 
-
+      /**
+       *
+       * update the label from current value
+       * used excpecially on slider
+       *
+       *
+       */
       updateLabel = function(label, value) {
             value = this.params.title.replace('%s', value);
             $(label).html(value);
       }
+
 
       /**
        *

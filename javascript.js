@@ -65,55 +65,56 @@ function init() {
                   'color': self.ctx.$scope.styleButton.textColor
             };
       }
-      
-      
-// gets called when button is pushed
-// saves attributes and triggers rule chain "attributes updated"
-self.ctx.$scope.sendUpdate = function(event) {
 
 
-      let entityId = {
-            entityType: "DEVICE",
-            id: self.ctx.defaultSubscription.targetDeviceId
-      };
-
-      const entityAttributeType = self.ctx.settings.entityAttributeType;
+      // gets called when button is pushed
+      // saves attributes and triggers rule chain "attributes updated"
+      // must be inside init() to access $scope
+      self.ctx.$scope.sendUpdate = function(event) {
 
 
-      // holds all attributes that will be written to device
-      let attributes = [];
+            let entityId = {
+                  entityType: "DEVICE",
+                  id: self.ctx.defaultSubscription.targetDeviceId
+            };
+
+            const entityAttributeType = self.ctx.settings.entityAttributeType;
 
 
-      // take command from widget Settings
-      attributes.push({
-            key: 'command',
-            value: self.ctx.settings.command
-      });
-      // loop input forms and get values
-      self.ctx.$scope.fields.forEach(item => attributes.push(item.getValue()));
+            // holds all attributes that will be written to device
+            let attributes = [];
 
 
-      const attributeService = self.ctx.$scope.$injector.get(self.ctx.servicesMap.get('attributeService'));
-      // save attributes
-      attributeService.saveEntityAttributes(entityId, entityAttributeType, attributes).subscribe(
-            function success() {
-                  self.ctx.$scope.error = '';
-                  self.ctx.detectChanges();
-            },
-            function fail(rejection) {
-                  if (self.ctx.settings.showError) {
-                        self.ctx.$scope.error =
-                              rejection.status + ": " +
-                              rejection.statusText;
+            // take command from widget Settings
+            attributes.push({
+                  key: 'command',
+                  value: self.ctx.settings.command
+            });
+            // loop input forms and get values
+            self.ctx.$scope.fields.forEach(item => attributes.push(item.getValue()));
+
+
+            const attributeService = self.ctx.$scope.$injector.get(self.ctx.servicesMap.get('attributeService'));
+            // save attributes
+            attributeService.saveEntityAttributes(entityId, entityAttributeType, attributes).subscribe(
+                  function success() {
+                        self.ctx.$scope.error = '';
                         self.ctx.detectChanges();
+                  },
+                  function fail(rejection) {
+                        if (self.ctx.settings.showError) {
+                              self.ctx.$scope.error =
+                                    rejection.status + ": " +
+                                    rejection.statusText;
+                              self.ctx.detectChanges();
+                        }
                   }
-            }
 
-      );
+            );
 
-      // to prevent boostrap from sending formular for <button>
-      event.preventDefault();
-};
+            // to prevent boostrap from sending formular for <button>
+            event.preventDefault();
+      };
 
 
 
