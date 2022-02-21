@@ -16,7 +16,7 @@
             "step": 1
         },
         {
-            "title": "Waypoints: ",
+            "title": "Waypoint %s: ",
             "key": "waypoints",
             "type": "text",
             "default": "0",
