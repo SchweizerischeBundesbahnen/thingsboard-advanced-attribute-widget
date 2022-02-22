@@ -1,0 +1,9 @@
+{
+      "name": "thingsboard-advanced-attribute-widget",
+      "scripts": {
+            "docs": "./node_modules/jsdoc/jsdoc.js -c ./.jsdoc.conf.json"
+      },
+      "dependencies": {
+            "jsdoc": "^3.6.10"
+      }
+}
