@@ -163,6 +163,7 @@ class classInputField {
                                                 myself.counter++;
                                                 myself.addInputField(true); // true=>subField
                                           });
+                                          myself.updateSummary();
                                     }
 
                               });
