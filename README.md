@@ -1,3 +1,3 @@
 # thingsboard-advanced-attribute-widget
-#Documentation
+# Documentation
 https://schweizerischebundesbahnen.github.io/thingsboard-advanced-attribute-widget/
