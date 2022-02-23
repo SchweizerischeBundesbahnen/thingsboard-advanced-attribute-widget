@@ -1,5 +1,6 @@
 {
       "name": "thingsboard-advanced-attribute-widget",
+      "version": "0.9",
       "scripts": {
             "docs": "./node_modules/jsdoc/jsdoc.js -c ./.jsdoc.conf.json"
       },
