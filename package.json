@@ -1,7 +1,7 @@
 {
       "name": "thingsboard-advanced-attribute-widget",
       "version": "0.9.0",
-      "author": "Jan Schär <jan.schaer@sbb.ch>"
+      "author": "Jan Schär <jan.schaer@sbb.ch>",
       "scripts": {
             "docs": "./node_modules/jsdoc/jsdoc.js -c ./.jsdoc.conf.json"
       },

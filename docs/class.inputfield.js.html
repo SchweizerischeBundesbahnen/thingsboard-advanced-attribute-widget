@@ -30,7 +30,7 @@
 
 // SVG Plus icon
 const WIDGET_ICON_PLUS = '&lt;svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">&lt;path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>&lt;path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>&lt;/svg>';
-
+const WIDGET_ICON_TRASH = '&lt;svg fill="#000000" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 32 32" width="16px" height="16px">&lt;path d="M 15 4 C 14.476563 4 13.941406 4.183594 13.5625 4.5625 C 13.183594 4.941406 13 5.476563 13 6 L 13 7 L 7 7 L 7 9 L 8 9 L 8 25 C 8 26.644531 9.355469 28 11 28 L 23 28 C 24.644531 28 26 26.644531 26 25 L 26 9 L 27 9 L 27 7 L 21 7 L 21 6 C 21 5.476563 20.816406 4.941406 20.4375 4.5625 C 20.058594 4.183594 19.523438 4 19 4 Z M 15 6 L 19 6 L 19 7 L 15 7 Z M 10 9 L 24 9 L 24 25 C 24 25.554688 23.554688 26 23 26 L 11 26 C 10.445313 26 10 25.554688 10 25 Z M 12 12 L 12 23 L 14 23 L 14 12 Z M 16 12 L 16 23 L 18 23 L 18 12 Z M 20 12 L 20 23 L 22 23 L 22 12 Z"/>&lt;/svg>';
 
 
 /**
@@ -47,15 +47,15 @@ class classInputField {
        * @param {HTMLElement} parentDom - DOM element of parent;
        * @param {Object} params - parameters of the input field
        * @param {string} params.title - is used on the label; can have %s for replacements
-       * @param {string} params.type -
-       * @param {string} params.key -
+       * @param {string} params.type - possible values: textfield|slider|checkbox
+       * @param {string} params.key - the TB entity attribute key
        * @param {string} params.value -
-       * @param {string} [params.min] -
-       * @param {string} [params.max] -
-       * @param {string} [params.step] -
-       * @param {string} [params.multi] - true or false ()
-       * @param {string} [params.multitype] -
-       * @param {string} [params.pattern] -
+       * @param {Number} [params.min] - minimum value for range
+       * @param {Number} [params.max] - maximum value for range
+       * @param {Number} [params.step] - steps for slider
+       * @param {string} [params.multi] - true|false
+       * @param {string} [params.multitype] - for now only "array" which saves the values as "[x,y,z]"
+       * @param {string} [params.pattern] - regular expression; backslash must be escaped;
        * @param {Object} angular - "self" variable inside thingsboard widget js
        *
        * @return {void} Nothing
@@ -75,6 +75,7 @@ class classInputField {
             this.angularself = angular;
             this.subfields = [];
             this.subfieldsValues = [];
+            this.remove = null;
             this.render();
       }
 
@@ -201,6 +202,7 @@ class classInputField {
             if (isMultiField) {
                   this.subfields.push(curInput);
                   curInput.value = myself.subfieldsValues[this.counter - 2] || 0;
+                  this.glueRemoveToLastSubElement();
             }
 
             // set default value from last setting
@@ -229,6 +231,55 @@ class classInputField {
                         console.log(e);
                   }
             }
+      }
+
+
+      /**
+       *
+       * puts a remove button to the last element of a multifield
+       * only the last element has a remove button
+       *
+       * @method
+       *
+       */
+      glueRemoveToLastSubElement = function() {
+            const myself = this;
+
+            let move = function() {
+                  // detach DOM from old parent
+                  try {
+                        myself.remove.parentElement.removeChild(myself.remove);
+                  }
+                  catch (e) {}
+                  // append to last subfield
+                  if (myself.subfields.length) {
+                        $(myself.subfields[myself.subfields.length - 1]).after(myself.remove);
+                  }
+
+            };
+
+            // on first run create remove button
+            if (!this.remove) {
+                  // add remove button
+                  this.remove = document.createElement('button');
+                  this.remove.className = 'btn';
+                  this.remove.innerHTML = WIDGET_ICON_TRASH + '&amp;nbsp;';
+                  // this.container.appendChild(remove);
+                  this.remove.onclick = (e) => {
+                        myself.counter--;
+                        let curInput = myself.subfields[myself.subfields.length - 1];
+                        let row = curInput.parentElement;
+                        row.remove();
+                        myself.subfields.pop(); // remove last element
+                        move();
+                        myself.updateSummary();
+                        e.preventDefault(); // or else bootrap does page reload/senf form data to nirvana
+                  };
+            }
+
+
+            move();
+
       }
 
 
@@ -465,7 +516,7 @@ class classInputField {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Feb 22 2022 16:11:44 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Wed Feb 23 2022 21:41:19 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
