@@ -72,7 +72,7 @@ class classInputField {
 
                   // "add" button
                   let add = document.createElement('button');
-                  add.className = 'btn btn - secondarytb-cstm-button-add';
+                  add.className = 'btn btn-secondary tb-cstm-button-add';
                   add.innerHTML = WIDGET_ICON_PLUS + '&nbsp;&nbsp;Add';
                   this.container.appendChild(add);
                   add.onclick = (e) => {
