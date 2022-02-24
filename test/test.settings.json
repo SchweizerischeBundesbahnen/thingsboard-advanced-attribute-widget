@@ -1,18 +1,23 @@
 [
         {
-            "title": "Distance 1: %s m",
+            "title": "LED einschalten?",
+            "type": "checkbox",
+            "key": "led_on"
+        },
+        {
+            "title": "Max Temp 1: %s °C",
             "type": "range",
-            "key": "distance1",
-            "min": -500,
-            "max": 500,
+            "key": "temp_max",
+            "min": -50,
+            "max": 100,
             "step": 1
         },
         {
-            "title": "Distance 2: %s m",
+            "title": "Min Temp 1: %s °C",
             "type": "range",
-            "key": "distance2",
-            "min": 0,
-            "max": 500,
+            "key": "temp_min",
+            "min": -50,
+            "max": 100,
             "step": 1
         },
         {
@@ -23,5 +28,14 @@
             "multi": true,
             "multitype": "array",
             "pattern":"^[+-]?([0-9]+\\.?[0-9]*|\\.[0-9]+)$"
+        },
+        {
+            "title": "E-Mail Alarm %s: ",
+            "key": "alert_email",
+            "type": "text",
+            "default": "0",
+            "multi": true,
+            "multitype": "array",
+            "pattern":"[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+"
         }
 ]

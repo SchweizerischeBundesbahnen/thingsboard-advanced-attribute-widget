@@ -81,7 +81,7 @@ let self = {
 // load json settings from file
 const loadAngularSettings = function() {
       return new Promise((resolve, reject) => {
-            fetch('https://cdn.jsdelivr.net/gh/SchweizerischeBundesbahnen/thingsboard-advanced-attribute-widget@7f19d42c7680d1e2ec995c6767f3503f4510b6d3/test/test.settings.json')
+            fetch('https://cdn.jsdelivr.net/gh/SchweizerischeBundesbahnen/thingsboard-advanced-attribute-widget@1026bd7169668d0655ea41e4f8cbda75de3bed13/test/test.settings.json')
                   .then(data => {
                         data.json()
                               .then(json => {
