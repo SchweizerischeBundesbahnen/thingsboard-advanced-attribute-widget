@@ -1,6 +1,7 @@
 // angular object simulator
 
 const DEVICE_ID = 'TEST';
+const GIT_VERSION = '37056f4c23ae3e9a2fa1978b7ea78a4c0afbbe3e';
 
 
 let self = {
@@ -35,6 +36,7 @@ let self = {
                               saveEntityAttributes: (entityId, entityAttributeType, attributes) => {
                                     return {
                                           subscribe: (success, fail) => {
+                                                console.log('saved attributes', attributes);
                                                 try {
                                                       success();
                                                 }
@@ -49,9 +51,11 @@ let self = {
                                           subscribe: (success, fail) => {
                                                 const attr = {};
                                                 attr[DEVICE_ID] = {
-                                                      distance1: '230',
-                                                      distance2: '201',
-                                                      waypoints: '[0, 50, 250]'
+                                                      led_on: 'true',
+                                                      temp_max: '40',
+                                                      temp_min: '-25',
+                                                      waypoints: '[0, 50, 250]',
+                                                      alert_email: '["test@sbb.ch"]',
                                                 };
                                                 try {
                                                       const data = [{
@@ -81,7 +85,7 @@ let self = {
 // load json settings from file
 const loadAngularSettings = function() {
       return new Promise((resolve, reject) => {
-            fetch('https://cdn.jsdelivr.net/gh/SchweizerischeBundesbahnen/thingsboard-advanced-attribute-widget@1026bd7169668d0655ea41e4f8cbda75de3bed13/test/test.settings.json')
+            fetch('https://cdn.jsdelivr.net/gh/SchweizerischeBundesbahnen/thingsboard-advanced-attribute-widget@' + GIT_VERSION + '/test/test.settings.json')
                   .then(data => {
                         data.json()
                               .then(json => {

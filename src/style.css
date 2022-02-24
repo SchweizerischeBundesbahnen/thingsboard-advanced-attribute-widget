@@ -38,8 +38,19 @@ form {
 
 
 .tb-cstm-button-add {
-    margin-left: 20px;
+    margin-left: 0px;
     padding: 2px 20px;
+    width: 100%;
+    margin-top: 10px;
+    padding: 1px 16px;
+    font-size: 12px;
+}
+
+
+.tb-cstm-row-container {
+    padding-top: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #dbdbdb;
 }
 
 @keyframes shake {
@@ -65,10 +76,3 @@ form {
     font-size: 12px;
 }
 
-.btn-secondary {
-    width: 125px;
-    margin-left: 112px;
-    margin-top: 10px;
-    padding: 1px 16px;
-    font-size: 12px;
-}
