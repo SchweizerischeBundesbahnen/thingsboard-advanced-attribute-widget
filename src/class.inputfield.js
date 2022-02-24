@@ -262,7 +262,7 @@ class classInputField {
             let inputFields = null;
 
             // for multifields check every subfield
-            if (this.summary && this.params.multitype && this.params.multitype === 'array') {
+            if (this.summary && this.params.multitype) {
 
                   let values = [];
                   // put all values in an array
@@ -281,11 +281,20 @@ class classInputField {
                   // }
 
                   // create a fake array for visualisation
-                  $(this.summary).val([
-                        '[',
-                        values.join(','),
-                        ']'
-                  ].join(''));
+                  let value = '';
+                  switch (this.params.multitype) {
+                        case 'array':
+                              value = [
+                                    '[',
+                                    values.join(','),
+                                    ']'
+                              ].join('');
+                              break;
+                        case 'list':
+                              value = values.join(',');
+                              break;
+                  }
+                  $(this.summary).val(value);
             }
             else {
                   inputFields = [this.input];
@@ -399,7 +408,14 @@ class classInputField {
 
             // in case of multi field load subfields for every array value
             else {
-                  this.subfieldsValues = JSON.parse(value);
+                  switch (this.params.multitype) {
+                        case 'array':
+                              this.subfieldsValues = JSON.parse(value);
+                              break;
+                        case 'list':
+                              this.subfieldsValues = value.split(',');
+                              break;
+                  }
                   this.subfieldsValues.forEach(item => {
                         this.counter++;
                         this.addInputField(true); // true=>subField
@@ -412,6 +428,7 @@ class classInputField {
       /**
        *
        * get default value from server attribute (which is last set value)
+       * does no conversion blunt value
        *
        * @public
        * @method
@@ -467,20 +484,21 @@ class classInputField {
             let value;
 
             // for multi value take summary
-            // summary is a dumb string; so we take it appart and make a real JSON-String out of it
-            // everything that is not a number will be force converted into a json-string
             if (this.params.multi) {
-                  let parts = $(this.summary).val().slice(1, -1).split(',');
-                  parts.forEach((item, index) => { if (isNaN(item)) { parts[index] = '"' + item + '"' } });
-                  value = '[' + parts.join(',') + ']'; // real json
-                  let jsonValue = JSON.parse(value);
                   switch (this.params.multitype) {
                         case 'array':
+                              // summary is a dumb string; so we take it appart and make a real JSON-String out of it
+                              // everything that is not a number will be force converted into a json-string
+                              let parts = $(this.summary).val().slice(1, -1).split(',');
+                              parts.forEach((item, index) => { if (isNaN(item)) { parts[index] = '"' + item + '"' } });
+                              value = '[' + parts.join(',') + ']'; // real json
+                              let jsonValue = JSON.parse(value);
                               value = JSON.stringify(jsonValue);
                               break;
-                              case 'list':
-                                    value = jsonValue.join(',');
-                                    break;
+                        case 'list':
+
+                              value = $(this.summary).val();
+                              break;
                   }
             }
             else {

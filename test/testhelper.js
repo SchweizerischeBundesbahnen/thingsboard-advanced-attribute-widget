@@ -1,7 +1,7 @@
 // angular object simulator
 
 const DEVICE_ID = 'TEST';
-const GIT_VERSION = '37056f4c23ae3e9a2fa1978b7ea78a4c0afbbe3e';
+const GIT_VERSION = '9219f6c46f7f4e587f46ca83de8c102dd392797f';
 
 
 let self = {
@@ -54,8 +54,8 @@ let self = {
                                                       led_on: 'true',
                                                       temp_max: '40',
                                                       temp_min: '-25',
-                                                      waypoints: '[0, 50, 250]',
-                                                      alert_email: '["test@sbb.ch"]',
+                                                      waypoints: '[0, 1, 2, 3]',
+                                                      alert_email: 'test@sbb.ch',
                                                 };
                                                 try {
                                                       const data = [{
