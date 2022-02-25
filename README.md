@@ -6,7 +6,7 @@ Looking for an advanced dashboard widget in Thingsboard to edit attributes. Look
 - textfield
 - slider / range slider
 - checkbox (true|false)
-- multifield (array)
+- multifield (array|list)
 
 <div style="width:200px">
 <img src="/assets/images/screenshot.png" width="50%">
