@@ -8,7 +8,15 @@ Looking for an advanced dashboard widget in Thingsboard to edit attributes. Look
 - checkbox (true|false)
 - multifield (array)
 
+<div style="width:200px">
+<img src="/assets/images/screenshot.png" width="50%">
+</div>
+
 ## Installation
+1. Import advanced_thingsboard_attribute_widget__ataw_.json to widget Library
+
+OR
+
 1. create new Widget (type: control widget, call it ATAW)
 2. add resources:
 - https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css
