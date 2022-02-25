@@ -1,16 +1,16 @@
 # Advanced Thingsboard Attribute Widget (ATAW)
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/SchweizerischeBundesbahnen/thingsboard-advanced-attribute-widget)
 
-<div style="width:200px">
-<img src="/assets/images/screenshot.png" width="50%">
-</div>
-
 ## Description
 Looking for an advanced dashboard widget in Thingsboard to edit attributes. Look no more. ATAW is very flexible. You can choose one ore many of the input field to let the user edit attribute values. The following input types are possible:
 - textfield
 - slider / range slider
 - checkbox (true|false)
 - multifield (array)
+
+<div style="width:200px">
+<img src="/assets/images/screenshot.png" width="50%">
+</div>
 
 ## Installation
 1. create new Widget (type: control widget, call it ATAW)
