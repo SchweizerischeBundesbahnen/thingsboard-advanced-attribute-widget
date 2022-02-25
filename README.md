@@ -1,6 +1,6 @@
 # Advanced Thingsboard Attribute Widget (ATAW)
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/SchweizerischeBundesbahnen/thingsboard-advanced-attribute-widget)
-<br />
+
 <div style="width:200px">
 ![Screenshot](/assets/images/screenshot.png "Screenshot")
 </div>
