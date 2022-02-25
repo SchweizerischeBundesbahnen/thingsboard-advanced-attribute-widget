@@ -13,6 +13,10 @@ Looking for an advanced dashboard widget in Thingsboard to edit attributes. Look
 </div>
 
 ## Installation
+1. Import advanced_thingsboard_attribute_widget__ataw_.json to widget Library
+
+OR
+
 1. create new Widget (type: control widget, call it ATAW)
 2. add resources:
 - https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css
