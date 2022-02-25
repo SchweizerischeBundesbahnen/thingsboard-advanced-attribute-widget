@@ -3,8 +3,8 @@
 
 ## Description
 Looking for an advanced dashboard widget in Thingsboard to edit attributes. Look no more. ATAW is very flexible. You can choose one ore many of the input field to let the user edit attribute values. The following input types are possible:
-- textfield
-- slider / range slider
+- textfield (opt. pattern check with regex)
+- slider / range slider (min,max,step)
 - checkbox (true|false)
 - multifield (array|list)
 
